@@ -5,6 +5,7 @@ const logger = require("morgan");
 
 require("dotenv").config();
 require("./config/database");
+const port = process.env.PORT || 3001;
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use(favicon(path.join(__dirname, "build", "favicon.ico")));
 app.use(express.static(path.join(__dirname, "build")));
 
-const port = process.env.PORT || 3001;
+app.use("/api/users", require("./routes/api/users"));
 
 app.get("/*", function (req, res) {
   // currentdirectory/build/index.html

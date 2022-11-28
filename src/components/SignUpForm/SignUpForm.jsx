@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { signUp } from "../../utilities/users-service";
 
 export class SignUpForm extends Component {
   state = {
@@ -17,9 +18,21 @@ export class SignUpForm extends Component {
     });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
+    // Prevent form from being submitted to the server
     e.preventDefault();
-    alert(JSON.stringify(this.state));
+    try {
+      // We don't want to send the 'error' or 'confirm' property,
+      //  so let's make a copy of the state object, then delete them
+      const formData = { ...this.state }; // we don't want to mutate state/the original object, so we're creating a new object to mutate/change it by putting it in a variable
+      delete formData.error;
+      delete formData.confirm;
+
+      const user = await signUp(formData);
+      console.log(user);
+    } catch (err) {
+      this.setState({ error: "Sign Up Failed- Try Again" });
+    }
   };
 
   render() {
