@@ -1,7 +1,7 @@
 import { getToken } from "./users-service";
 
 export default async function sendRequest(url, method = "GET", payload = null) {
-  const options = [method];
+  const options = { method };
   if (payload) {
     // setting the options if there is a payload
     options.headers = { "Content-Type": "application/json" };
